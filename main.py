@@ -7,7 +7,7 @@ ASCII_chars = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B
 
 MAX_RGB_VALUE = 255
 
-#gets the arrays of rgb from all the pixels of the image. Includes the im.thumbnail function where we can set how big we want our converted image to be though the "height" variable.
+#gets the arrays of rgb from all the pixels of the image. Includes the im.thumbnail function where we can set how big we want our converted image to be through the "height" variable.
 def get_rgb_array(im, height):
     im.thumbnail((height, 1000))
     print(im.size)
@@ -45,7 +45,7 @@ def get_inverted_brightness_matrix(brightness_matrix):
     for row in brightness_matrix:
         inverted_row = []
         for column in row:
-            inverted_row.append(abs(column - MAX_RGB_VALUE))
+            inverted_row.append(MAX_RGB_VALUE - column)
         inverted_brightness_matrix.append(inverted_row)
     return inverted_brightness_matrix
 
@@ -63,23 +63,56 @@ def get_ASCII_matrix(brightness_matrix, ascii_chars):
         output.append(row_ascii_art)
     return output
 
-def print_ascii_matrix(ascii_matrix, text_color):
-    for row in ascii_matrix:
-        line = [p for p in row]
-        print(text_color + "".join(line))
-    
+def getreducedcolor_matrix(rgb_matrix):
+    reducedColor = []
+    for row in rgb_matrix:
+        row_reducedColor = []
+        for column in row:
+            i = column[0] >> 7
+            j = column[1] >> 7
+            k = column[2] >> 7
+            row_reducedColor.append(str(i)+str(j)+str(k))
+        reducedColor.append(row_reducedColor)
+    return reducedColor
+
+def getReducedPixelColor(s):
+    if s == "000":
+        return Fore.BLACK
+    elif s == "100":
+        return Fore.RED
+    elif s == "010":
+        return Fore.GREEN
+    elif s == "001":
+        return Fore.BLUE
+    elif s == "110":
+        return Fore.YELLOW
+    elif s == "011":
+        return Fore.CYAN
+    elif s == "101":
+        return Fore.MAGENTA
+    else:
+        return Fore.WHITE
+
+def print_ascii_matrix(ascii_matrix, reducedcolor_matrix):
+    for i, row in enumerate(ascii_matrix):
+        for j, p in enumerate(row):
+            color = getReducedPixelColor(reducedcolor_matrix[i][j])
+            print(color + p, end = "")
+        print("")
     return(Style.RESET_ALL)
 
-im = Image.open("C:/Users/Luan\Desktop/faculdade/Python/ASCII/pineapple.jpg")
+im = Image.open("C:/Users/Luan\Desktop/faculdade/Python/ASCII/julha.jpg")
 
 
-pixel_array = get_rgb_array(im, 400)
+pixel_array = get_rgb_array(im, 300)
 #print(get_brightness_matrix(pixel_array))
 rgb_matrix = get_rgb_matrix(pixel_array)
-brightness_matrix = get_brightness_matrix(rgb_matrix, 'luminosity')
+brightness_matrix = get_brightness_matrix(rgb_matrix, 'average')
 inverted_brightness_matrix = get_inverted_brightness_matrix(brightness_matrix)
 #ascii_matrix = get_ASCII_matrix(brightness_matrix, ASCII_chars)
 ascii_matrix = get_ASCII_matrix(inverted_brightness_matrix, ASCII_chars)
-print_ascii_matrix(ascii_matrix, Fore.WHITE)
+reducedcolor_matrix = getreducedcolor_matrix(rgb_matrix)
+print_ascii_matrix(ascii_matrix, reducedcolor_matrix)
 
-
+#print(reducedcolor_matrix)
+#print(ascii_matrix)
