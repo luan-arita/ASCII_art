@@ -15,7 +15,7 @@ Other features that could be implemented are GIF support, another method for a b
 2. Add your image in the same folder as `main.py`.
 3. Execute:
 ```sh
-python -u main.py imageFilename [i] [-c] [-m {1, 2, 3}] [-hs HEIGHT]
+python -u main.py imageFilename [-i] [-c] [-m {1, 2, 3}] [-hs HEIGHT]
 ```
 positional arguments:
 
