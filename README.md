@@ -61,7 +61,7 @@ optional arguments:
   ## Known Issues
 
 
-  * Depending on the program you're using to view the ASCII Art the image's aspect ratio may look wrong. That's because of the height of the characters, whereas in Windows Command Prompt, for example, has characters roughly three times tall as they are wide. To fix this, we have to print each character in each row two to three times to stretch the image back out. This can be easily changed in the function `get_ASCII_matrix`. I personally Window's Terminal, but using Notepad or any other program may end up looking different.
+  * Depending on the program you're using to view the ASCII Art the image's aspect ratio may look wrong. That's because of the height of the characters, whereas in Windows Command Prompt, for example, has characters roughly three times tall as they are wide. To fix this, we have to print each character in each row two to three times to stretch the image back out. This can be easily changed in the function `get_ASCII_matrix`. I personally used Window's Terminal, but using Notepad or any other program may end up looking different.
 
 ## Contact
 
