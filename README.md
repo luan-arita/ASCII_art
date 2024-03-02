@@ -6,7 +6,7 @@ It is created by extracting RGB tuples from all of the image's pixels (with the 
 
 It also features colored images. The RGB values are converted into binary numbers through bitwise operators, which allows us to identify which colors between the three (R, G, B) are most predominant in the pixel and, consequently, 8 possible colors to view.
 
-Other features that could be implemented are GIF support, another method for identifying more colors and a possible GUI.
+Other features that could be implemented are GIF support, another method for a broader color identification and a possible GUI.
 
 ![WindowsTerminal_MvnmkYNLTf](https://github.com/luan-arita/ASCII_art/assets/35427506/15efeab0-b896-467e-8a9e-4266ac52f670)
 
