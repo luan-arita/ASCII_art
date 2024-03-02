@@ -39,9 +39,9 @@ optional arguments:
   * Lightness: `(max(R, G, B) + min(R, G, B)) / 2`
   * Luminosity: `0.21 R + 0.72 G, + 0.07 B`
  <p float="left">
-  <img src="/1.png" width="300" />
-  <img src="/2.png" width="300" /> 
-  <img src="/3.png" width="300" />
+  <img src="/1.png" width="250" />
+  <img src="/2.png" width="250" /> 
+  <img src="/3.png" width="250" />
 </p>
 
 - Invert image brightness
@@ -65,9 +65,13 @@ optional arguments:
 
 ## Contact
 
-[Luan Arita](https://www.linkedin.com/in/luan-arita-319870262/) - [@luan.arita](https://www.instagram.com/luan.arita/) - luan.arita@unesp.br
+[Luan Arita](https://www.linkedin.com/in/luan-arita-319870262/) - luan.arita@unesp.br
 
 ## Acknowledgements
 * [Robert Heaton](https://robertheaton.com/2018/06/12/programming-projects-for-advanced-beginners-ascii-art/) for guiding on how to make this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/sathwikmatsa/ASCII-art/blob/master/LICENSE) file for details
 
 
