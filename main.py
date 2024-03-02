@@ -1,16 +1,24 @@
 from PIL import Image
+import os
 import numpy  as np
-import pyperclip
+import argparse
 from colorama import Fore, Style
 
-ASCII_chars = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
+parser = argparse.ArgumentParser(description = 'Turn images into ASCII Art!')
+parser.add_argument("filename", help = "Name of the image file")
+parser.add_argument("-i", "--invert", help = "Inverts all the brightness.", action = 'store_true')
+parser.add_argument("-c", "--color", help = "Adds colours to the image.", action = 'store_true')
+parser.add_argument("-m", "--map", type = int, choices = [1, 2, 3], help = "Choose brightness mappings. 1 for Average, 2 for Lightness and 3 for Luminosity.", default = 1)
+parser.add_argument("-hs", "--height", type = int, help = "Choose image size by adjusting its height.", default = 300)
 
+args = parser.parse_args()
+
+ASCII_chars = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
 MAX_RGB_VALUE = 255
 
 #gets the arrays of rgb from all the pixels of the image. Includes the im.thumbnail function where we can set how big we want our converted image to be through the "height" variable.
 def get_rgb_array(im, height):
     im.thumbnail((height, 1000))
-    print(im.size)
     return np.array(im)
 
 #transforms the array into basically a list of lists, to make things easier to work with
@@ -25,16 +33,16 @@ def get_rgb_matrix(pixel_array):
 
 #column[0] = R, column[1] = G, column[2] = B, which form the three values from RGB matrix
 #converts the three values from RGB data into single brightness numbers, using three different ways of conversion, those being the average, lightness and luminosity accounted for human perception. Some images may end up looking better by changing this.
-def get_brightness_matrix(rgb_matrix, algo_name = 'average'):
+def get_brightness_matrix(rgb_matrix, m):
     brightness_matrix = []
     for row in rgb_matrix:
         brightness_row = []
         for column in row:
-            if algo_name == 'average':
-                brightness = ((column[0] + column[1] + column[2]) / 3.0)
-            elif algo_name == 'lightness':
-                brightness = ((max(column) + min(column)) / 2.0)
-            elif algo_name == 'luminosity':
+            if m == 1: #Average
+                brightness = (int(column[0]) + int(column[1]) + int(column[2]))/ 3.0
+            elif m == 2: #Lightness
+                brightness = ((int(max(column)) + int(min(column))) / 2.0)
+            elif m == 3: #Luminosity
                 brightness = (column[0]*0.21 + column[1]*0.72 + column[2]*0.07)
             brightness_row.append(brightness)
         brightness_matrix.append(brightness_row)
@@ -101,18 +109,24 @@ def print_ascii_matrix(ascii_matrix, reducedcolor_matrix):
         print("")
     return(Style.RESET_ALL)
 
-im = Image.open("C:/Users/Luan\Desktop/faculdade/Python/ASCII/julha.jpg")
+image_path = os.path.join(os.path.dirname(__file__), args.filename)
+im = Image.open(image_path)
 
-
-pixel_array = get_rgb_array(im, 300)
-#print(get_brightness_matrix(pixel_array))
+pixel_array = get_rgb_array(im, args.height)
 rgb_matrix = get_rgb_matrix(pixel_array)
-brightness_matrix = get_brightness_matrix(rgb_matrix, 'average')
-inverted_brightness_matrix = get_inverted_brightness_matrix(brightness_matrix)
-#ascii_matrix = get_ASCII_matrix(brightness_matrix, ASCII_chars)
-ascii_matrix = get_ASCII_matrix(inverted_brightness_matrix, ASCII_chars)
-reducedcolor_matrix = getreducedcolor_matrix(rgb_matrix)
-print_ascii_matrix(ascii_matrix, reducedcolor_matrix)
+brightness_matrix = get_brightness_matrix(rgb_matrix, args.map)
 
-#print(reducedcolor_matrix)
-#print(ascii_matrix)
+inverted_ascii_matrix = get_inverted_brightness_matrix(brightness_matrix)
+
+if args.invert:
+    ascii_matrix = get_ASCII_matrix(inverted_ascii_matrix, ASCII_chars)
+else:
+    ascii_matrix = get_ASCII_matrix(brightness_matrix, ASCII_chars)
+
+reducedcolor_matrix = getreducedcolor_matrix(rgb_matrix)
+
+if args.color:
+    print_ascii_matrix(ascii_matrix, reducedcolor_matrix)
+else:
+    print_ascii_matrix(ascii_matrix, brightness_matrix)
+
