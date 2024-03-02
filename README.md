@@ -37,7 +37,7 @@ optional arguments:
 - Three different ways of mapping RGB values into brightness:
   * Average: `(R + G + B) / 3`
   * Lightness: `(max(R, G, B) + min(R, G, B)) / 2`
-  * Luminosity: `0.21 R + 0.72 G, + 0.07 B`
+  * Luminosity: `0.21 R + 0.72 G + 0.07 B`
  <p float="left">
   <img src="/1.png" width="250" />
   <img src="/2.png" width="250" /> 
